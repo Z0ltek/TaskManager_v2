@@ -14,6 +14,7 @@ class Project(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, related_name='project')
 
+
     def __str__(self):
         return self.name
 
@@ -35,7 +36,7 @@ class Subtask(models.Model):
     name = models.CharField(max_length=255)
     message = models.TextField(max_length=4000)
     status = EnumField(Status, max_length=1)
-    tasks = models.ForeignKey('Task', related_name='tasks_subtasks')
+    task = models.ForeignKey(Task, related_name='subtasks')
     time = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     last_updated = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
