@@ -14,7 +14,6 @@ class Project(models.Model):
     last_updated = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, related_name='project')
 
-
     def __str__(self):
         return self.name
 

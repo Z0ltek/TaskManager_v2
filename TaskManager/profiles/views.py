@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .forms import SignUpForm
 from .forms import CreateTaskForm
 
-from .models import Project as ProjectModel, Task, Subtask, Status
+from .models import Project as ProjectModel, Task as TaskModel, Subtask, Status
 
 def HomeView(request):
     return render(request, 'home.html', {})
@@ -16,7 +16,6 @@ def HomeView(request):
 def projectview(request):
     proj = ProjectModel.objects.all()
     return render(request, 'projects.html', {'proj': proj})
-# {% url 'projects/' project.id %}
 
 def signup(request):
     if request.method == 'POST':
@@ -34,7 +33,8 @@ def LogoutView(request):
 
 def project_tasks(request, id):
     project = get_object_or_404(ProjectModel, id=id)
-    return render(request, 'tasks.html', {'project': project})
+    task = TaskModel.objects.all()
+    return render(request, 'tasks.html', {'project': project, 'task': task})
 
 def new_task(request, id):
     project = get_object_or_404(ProjectModel, id=id)
