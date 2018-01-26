@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from .forms import SignUpForm
 from .forms import CreateTaskForm
 
-from .models import Project as ProjectModel, Task, Subtask, Status, Permissions
+from .models import Project as ProjectModel, Task, Subtask, Status
 
 def HomeView(request):
     return render(request, 'home.html', {})

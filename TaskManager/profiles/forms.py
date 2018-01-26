@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from .models import Project
 from .models import Task
 from .models import Subtask
-from .models import Permissions
 
 class SignUpForm(UserCreationForm):
     email = forms.CharField(max_length=254, required=True, widget=forms.EmailInput())
@@ -35,8 +34,3 @@ class CreateSubtask(forms.ModelForm):
         model = Subtask
         fields = ('name', 'message')
 
-
-class AddPermissions(forms.ModelForm):
-    class Meta:
-        model = Permissions
-        fields = ('project', 'user')
