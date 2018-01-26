@@ -1,0 +1,36 @@
+{% extends 'home.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+      {% block breadcrumb %}
+<!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+            <li class="breadcrumb-item">
+            <a href="{% url 'projects' %}">{{project.name}}</a>
+            </li>
+            <li class="breadcrumb-item active">New task</li>
+            </ol>
+
+      {% endblock %}
+
+
+<br>
+<br>
+<br><hr><p></p>
+                {% block content %}
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-area-chart"></i> Create new task for {{project.name}} project</div>
+        <div class="card-body">
+             <form method="post" novalidate>
+                {% csrf_token %}
+                {% include 'form.html' %}
+                <button type="submit" class="btn btn-success">Create task</button>
+             </form>
+        </div>
+      </div>
+                {% endblock %}
+

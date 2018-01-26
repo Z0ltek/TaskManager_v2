@@ -1,0 +1,45 @@
+{% extends 'home.html' %}
+
+
+      {% block breadcrumb %}
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+            <a href="#">Projects</a>
+            </li>
+            <li class="breadcrumb-item active">Chose project</li>
+            </ol>
+            <br>
+
+      {% endblock %}
+
+      {% block content %}
+
+
+
+                   <table class="table">
+                        <thead class="thead-inverse">
+                      <tr>
+                        <th>Projects</th>
+                        <th>Tasks</th>
+                        <th>Subtasks</th>
+                        <th>Last update</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for project in proj %}
+                        <tr>
+                          <td>
+
+                            <a href="{% url 'project_tasks' project.id %}">{{ project.name }}</a>
+                            <small class="text-muted d-block">{{ project.description }}</small>
+                          </td>
+                          <td class="align-middle">0</td>
+                          <td class="align-middle">0</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+      {% endblock %}
