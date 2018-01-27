@@ -29,7 +29,9 @@ class CreateTaskForm(forms.ModelForm):
         fields = ('name', 'description')
 
 
-class CreateSubtask(forms.ModelForm):
+class CreateSubtaskForm(forms.ModelForm):
+    message = forms.CharField(widget=forms.Textarea(), max_length=4000)
+
     class Meta:
         model = Subtask
         fields = ('name', 'message')

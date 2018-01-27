@@ -17,6 +17,12 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    def get_tasks_count(self):
+        return Task.objects.filter(task__project=self).count()
+
+    def get_last_update(self):
+        return Task.objects.filter(task__project=self).order_by('-created_at').first()
+
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)

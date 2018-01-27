@@ -5,13 +5,15 @@
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
             <li class="breadcrumb-item">
-            <a href="{% url 'projects' %}">{{project.name}}</a>
+                <a href="{% url 'projects' %}">{{project.name}}</a>
             </li>
-            <li class="breadcrumb-item active">Tasks...</li>
+            <li class="breadcrumb-item active">
+                <a href="{% url 'project_tasks' project.id %}">{{ task.name }}</a>
+            </li>
             </ol>
                 <hr>
                 <div class="mb-4">
-                <a href="{% url 'new_task' project.id %}" class="btn btn-primary">Create task</a>
+                <a href="{% url 'new_subtask' project.id task.id %}" class="btn btn-primary">Create subtask</a>
                 </div>
 
 
@@ -25,20 +27,18 @@
                           <tr>
                             <th>Task name</th>
                             <th>Owner</th>
-                            <th>Subtasks</th>
                             <th>Status</th>
                             <th>Last Update</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          {% for task in project.tasks.all %}
+                          {% for subtask in task.subtasks.all %}
                             <tr>
-                              <td><a href="{% url 'task_view' project.id task.id %}">{{ task.name }}</a></td>
-                              <td>{{ task.created_by.username }}</td>
-                              <td>{{ task.subtasks.count}}</td>
-                              <td>{{ task.status }}</td>
-                              <td>{{ task.updated_at }}</td>
+                              <td>{{ subtask.name }}</td>
+                              <td>{{ subtask.created_by.username }}</td>
+                              <td>{{ subtask.status }}</td>
+                              <td>{{ subtask.updated_at }}</td>
                               <td>edit</td>
                             </tr>
                           {% endfor %}

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 from .forms import SignUpForm
 from .forms import CreateTaskForm
+from .forms import CreateSubtaskForm
 
 from .models import Project as ProjectModel, Task as TaskModel, Subtask, Status
 
@@ -36,6 +37,12 @@ def project_tasks(request, id):
     task = TaskModel.objects.all()
     return render(request, 'tasks.html', {'project': project, 'task': task})
 
+def task_view(request, id, task_id):
+    project = get_object_or_404(ProjectModel, id=id)
+    task = get_object_or_404(TaskModel, id=task_id)
+    subtask = Subtask.objects.all()
+    return render(request, 'subtasks.html', {'project': project, 'task': task, 'subtask': subtask})
+
 def new_task(request, id):
     project = get_object_or_404(ProjectModel, id=id)
     user = User.objects.first()
@@ -52,6 +59,24 @@ def new_task(request, id):
     else:
         form = CreateTaskForm()
     return render(request, 'new_task.html', {'form': form, 'project': project})
+
+def new_subtask(request, id, task_id):
+    project = get_object_or_404(ProjectModel, id=id)
+    task = get_object_or_404(TaskModel, id=task_id)
+    user = User.objects.first()
+
+    if request.method == 'POST':
+        form = CreateSubtaskForm(request.POST)
+        if form.is_valid():
+            subtask = form.save(commit=False)
+            subtask.task = task
+            subtask.created_by = user
+            subtask.status = 1
+            subtask.save()
+            return redirect('task_view', id=id, task_id=task.id)
+    else:
+        form = CreateSubtaskForm()
+    return render(request, 'new_subtask.html', {'form': form, 'task': task, 'project': project})
 
 
 
