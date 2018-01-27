@@ -37,7 +37,7 @@
                               <td><a href="{% url 'task_view' project.id task.id %}">{{ task.name }}</a></td>
                               <td>{{ task.created_by.username }}</td>
                               <td>{{ task.subtasks.count}}</td>
-                              <td>{{ task.status }}</td>
+                              <td>{{ task.get_status_display }}</td>
                               <td>{{ task.updated_at }}</td>
                               <td>edit</td>
                             </tr>

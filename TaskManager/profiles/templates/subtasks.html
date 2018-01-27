@@ -22,6 +22,10 @@
 
       {% block content %}
 
+                    <hr>
+<p>{{task.description}}</p>
+
+
                     <table class="table">
                         <thead class="thead-inverse">
                           <tr>
@@ -37,7 +41,7 @@
                             <tr>
                               <td>{{ subtask.name }}</td>
                               <td>{{ subtask.created_by.username }}</td>
-                              <td>{{ subtask.status }}</td>
+                              <td>{{ subtask.get_status_display }}</td>
                               <td>{{ subtask.updated_at }}</td>
                               <td>edit</td>
                             </tr>

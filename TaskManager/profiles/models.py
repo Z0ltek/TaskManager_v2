@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from enumfields import EnumField
-from enum import Enum
 
-class Status(Enum):
-    TODO = 1
-    INPROGRESS = 2
+class Status():
+    INPROGRESS = 1
+    TODO = 2
     DONE = 3
+
+    STATUS_CHOISE = (
+        (TODO, 'TODO'),
+        (INPROGRESS, 'IN PROGRESS'),
+        (DONE, 'DONE')
+    )
 
 class Project(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -26,7 +30,7 @@ class Project(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
-    status = EnumField(Status, max_length=1)
+    status = models.IntegerField(Status, choices=Status.STATUS_CHOISE)
     project = models.ForeignKey(Project, related_name='tasks')
     time = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,7 +44,7 @@ class Task(models.Model):
 class Subtask(models.Model):
     name = models.CharField(max_length=255)
     message = models.TextField(max_length=4000)
-    status = EnumField(Status, max_length=1)
+    status = models.IntegerField(Status, choices=Status.STATUS_CHOISE)
     task = models.ForeignKey(Task, related_name='subtasks')
     time = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     last_updated = models.DateTimeField(auto_now_add=True)

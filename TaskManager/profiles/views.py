@@ -41,6 +41,7 @@ def task_view(request, id, task_id):
     project = get_object_or_404(ProjectModel, id=id)
     task = get_object_or_404(TaskModel, id=task_id)
     subtask = Subtask.objects.all()
+
     return render(request, 'subtasks.html', {'project': project, 'task': task, 'subtask': subtask})
 
 def new_task(request, id):
@@ -53,7 +54,7 @@ def new_task(request, id):
             task = form.save(commit=False)
             task.project = project
             task.created_by = user
-            task.status = 1
+            task.status = 2
             task.save()
             return redirect('project_tasks', id=project.id)
     else:
@@ -71,7 +72,7 @@ def new_subtask(request, id, task_id):
             subtask = form.save(commit=False)
             subtask.task = task
             subtask.created_by = user
-            subtask.status = 1
+            subtask.status = 2
             subtask.save()
             return redirect('task_view', id=id, task_id=task.id)
     else:
