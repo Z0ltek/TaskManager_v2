@@ -36,7 +36,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
     created_by = models.ForeignKey(User, related_name='tasks')
-    updated_by = models.ForeignKey(User, null=True, related_name='+')
+    owner = models.ForeignKey(User, null=True, related_name='+')
 
     def __str__(self):
         return self.name
@@ -51,7 +51,7 @@ class Subtask(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(null=True)
     created_by = models.ForeignKey(User, related_name='subtasks')
-    updated_by = models.ForeignKey(User, null=True, related_name='+')
+    owner = models.ForeignKey(User, null=True, related_name='+')
 
     def __str__(self):
         return self.name

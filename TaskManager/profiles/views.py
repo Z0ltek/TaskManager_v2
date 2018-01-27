@@ -15,7 +15,7 @@ def HomeView(request):
     return render(request, 'home.html', {})
 
 def projectview(request):
-    proj = ProjectModel.objects.all()
+    proj = ProjectModel.objects.filter(owner=request.user)
     return render(request, 'projects.html', {'proj': proj})
 
 def signup(request):
