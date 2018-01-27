@@ -1,19 +1,19 @@
 {% load widget_tweaks %}
 {% for field in form %}
 
-  <div class="form-group">
+<div class="form-group">
 
     {{ field.label_tag }}
-      {% render_field field class="form-control" placeholder=field.label %}
+    {% render_field field class="form-control" placeholder=field.label %}
     {% if field.help_text %}
 
-      <small class="form-text text-muted">
-          {{ field.help_text|safe }}
-      </small>
+    <small class="form-text text-muted">
+        {{ field.help_text|safe }}
+    </small>
     {% endif %}
 
-      {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-      {% endfor %}
-  </div>
+    {% for error in field.errors %}
+    <p style="color: red">{{ error }}</p>
+    {% endfor %}
+</div>
 {% endfor %}

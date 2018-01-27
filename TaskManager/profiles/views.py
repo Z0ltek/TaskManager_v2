@@ -11,12 +11,15 @@ from .forms import CreateSubtaskForm
 
 from .models import Project as ProjectModel, Task as TaskModel, Subtask, Status
 
+
 def HomeView(request):
     return render(request, 'home.html', {})
+
 
 def projectview(request):
     proj = ProjectModel.objects.filter(owner=request.user)
     return render(request, 'projects.html', {'proj': proj})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -29,20 +32,32 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+
 def LogoutView(request):
     logout(request)
+
 
 def project_tasks(request, id):
     project = get_object_or_404(ProjectModel, id=id)
     task = TaskModel.objects.all()
     return render(request, 'tasks.html', {'project': project, 'task': task})
 
+
 def task_view(request, id, task_id):
     project = get_object_or_404(ProjectModel, id=id)
     task = get_object_or_404(TaskModel, id=task_id)
     subtask = Subtask.objects.all()
 
-    return render(request, 'subtasks.html', {'project': project, 'task': task, 'subtask': subtask})
+    if request.method == 'POST':
+        status_id = request.POST.get('status_id')
+
+        task.status = status_id
+        task.save()
+        return redirect('project_tasks', id=project.id)
+
+    return render(request, 'subtasks.html',
+                  {'project': project, 'task': task, 'subtask': subtask, 'status': Status.STATUS_CHOISE})
+
 
 def new_task(request, id):
     project = get_object_or_404(ProjectModel, id=id)
@@ -61,6 +76,7 @@ def new_task(request, id):
         form = CreateTaskForm()
     return render(request, 'new_task.html', {'form': form, 'project': project})
 
+
 def new_subtask(request, id, task_id):
     project = get_object_or_404(ProjectModel, id=id)
     task = get_object_or_404(TaskModel, id=task_id)
@@ -78,13 +94,3 @@ def new_subtask(request, id, task_id):
     else:
         form = CreateSubtaskForm()
     return render(request, 'new_subtask.html', {'form': form, 'task': task, 'project': project})
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Status():
     INPROGRESS = 1
     TODO = 2
@@ -11,6 +12,7 @@ class Status():
         (INPROGRESS, 'IN PROGRESS'),
         (DONE, 'DONE')
     )
+
 
 class Project(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -27,6 +29,7 @@ class Project(models.Model):
     def get_last_update(self):
         return Task.objects.filter(task__project=self).order_by('-created_at').first()
 
+
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
@@ -40,6 +43,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Subtask(models.Model):
     name = models.CharField(max_length=255)

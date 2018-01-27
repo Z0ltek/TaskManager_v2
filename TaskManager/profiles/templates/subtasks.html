@@ -1,51 +1,64 @@
 {% extends 'home.html' %}
 
 
-      {% block breadcrumb %}
-            <!-- Breadcrumbs-->
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url 'projects' %}">{{project.name}}</a>
-            </li>
-            <li class="breadcrumb-item active">
-                <a href="{% url 'project_tasks' project.id %}">{{ task.name }}</a>
-            </li>
-            </ol>
-                <hr>
-                <div class="mb-4">
-                <a href="{% url 'new_subtask' project.id task.id %}" class="btn btn-primary">Create subtask</a>
-                </div>
+{% block breadcrumb %}
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{% url 'projects' %}">{{project.name}}</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a href="{% url 'project_tasks' project.id %}">{{ task.name }}</a>
+    </li>
+</ol>
+<hr>
+<div class="mb-4">
+    <a href="{% url 'new_subtask' project.id task.id %}" class="btn btn-primary">Create subtask</a>
+</div>
 
 
+{% endblock %}
 
-      {% endblock %}
+{% block content %}
 
-      {% block content %}
-
-                    <hr>
+<hr>
 <p>{{task.description}}</p>
+<hr>
+<form method="post" action="{% url 'task_view' project.id task.id %}" class="form-inline">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="status">Status: </label>
+        <select class="form-control" name="status_id" id="status">
+            {% for id, name in status %}
+            <option value={{ id }} {% if task.status== id %} selected="selected" {% endif %}>{{ name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-default">Set status</button>
+</form>
+<hr>
 
 
-                    <table class="table">
-                        <thead class="thead-inverse">
-                          <tr>
-                            <th>Task name</th>
-                            <th>Owner</th>
-                            <th>Status</th>
-                            <th>Last Update</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for subtask in task.subtasks.all %}
-                            <tr>
-                              <td>{{ subtask.name }}</td>
-                              <td>{{ subtask.created_by.username }}</td>
-                              <td>{{ subtask.get_status_display }}</td>
-                              <td>{{ subtask.updated_at }}</td>
-                              <td>edit</td>
-                            </tr>
-                          {% endfor %}
-                        </tbody>
-                    </table>
-                {% endblock %}
+<table class="table">
+    <thead class="thead-inverse">
+    <tr>
+        <th>Task name</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>Last Update</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for subtask in task.subtasks.all %}
+    <tr>
+        <td>{{ subtask.name }}</td>
+        <td>{{ subtask.created_by.username }}</td>
+        <td>{{ subtask.get_status_display }}</td>
+        <td>{{ subtask.updated_at }}</td>
+        <td>edit</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
