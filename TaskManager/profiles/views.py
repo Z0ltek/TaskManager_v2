@@ -39,14 +39,14 @@ def LogoutView(request):
 
 def project_tasks(request, id):
     project = get_object_or_404(ProjectModel, id=id)
-    task = TaskModel.objects.all()
-    return render(request, 'tasks.html', {'project': project, 'task': task})
+    tasks = project.tasks.all().order_by('status')
+    return render(request, 'tasks.html', {'project': project, 'tasks': tasks})
 
 
 def task_view(request, id, task_id):
     project = get_object_or_404(ProjectModel, id=id)
     task = get_object_or_404(TaskModel, id=task_id)
-    subtask = Subtask.objects.all()
+    subtasks = task.subtasks.all().order_by('status')
 
     if request.method == 'POST':
         status_id = request.POST.get('status_id')
@@ -56,6 +56,21 @@ def task_view(request, id, task_id):
         return redirect('project_tasks', id=project.id)
 
     return render(request, 'subtasks.html',
+                  {'project': project, 'task': task, 'subtasks': subtasks, 'status': Status.STATUS_CHOISE})
+
+
+def view_subtask(request, id, task_id, subtask_id):
+    project = get_object_or_404(ProjectModel, id=id)
+    task = get_object_or_404(TaskModel, id=task_id)
+    subtask = get_object_or_404(Subtask, id=subtask_id)
+
+    if request.method == 'POST':
+        status_id = request.POST.get('status_id')
+        subtask.status = status_id
+        subtask.save()
+        return redirect('task_view', id=id, task_id=task.id)
+
+    return render(request, 'view_subtasks.html',
                   {'project': project, 'task': task, 'subtask': subtask, 'status': Status.STATUS_CHOISE})
 
 

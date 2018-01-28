@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Status():
+class Status:
     INPROGRESS = 1
     TODO = 2
     DONE = 3

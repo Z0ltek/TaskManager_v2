@@ -24,37 +24,17 @@
 <hr>
 <p>{{task.description}}</p>
 <hr>
-<form method="post" action="{% url 'task_view' project.id task.id %}" class="form-inline">
+<form method="post" action="{% url 'view_subtask' project.id task.id subtask.id %}" class="form-inline">
     {% csrf_token %}
     <div class="form-group">
         <label for="status">Status: </label>
         <select class="form-control" name="status_id" id="status">
             {% for id, name in status %}
-            <option value={{ id }} {% if task.status == id %} selected="selected" {% endif %}>{{ name }}</option>
+            <option value={{ id }} {% if subtask.status == id %} selected="selected" {% endif %}>{{ name }}</option>
             {% endfor %}
         </select>
     </div>
     <button type="submit" class="btn btn-default">Set status</button>
 </form>
 <hr>
-
-
-<table class="table">
-    <thead class="thead-inverse">
-    <tr>
-        <th>Subtask name</th>
-        <th>Owner</th>
-        <th>Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for subtask in subtasks %}
-    <tr>
-        <td><a href="{% url 'view_subtask' project.id task.id subtask.id %}">{{ subtask.name }}</a></td>
-        <td>{{ subtask.owner.username }}</td>
-        <td>{{ subtask.get_status_display }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
 {% endblock %}

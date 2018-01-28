@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^projects/(?P<id>\d+)/$', views.project_tasks, name='project_tasks'),
     url(r'^projects/(?P<id>\d+)/new/$', views.new_task, name='new_task'),
     url(r'^projects/(?P<id>\d+)/task/(?P<task_id>\d+)/$', views.task_view, name='task_view'),
+    url(r'^projects/(?P<id>\d+)/task/(?P<task_id>\d+)/(?P<subtask_id>\d+)/$', views.view_subtask, name='view_subtask'),
     url(r'^projects/(?P<id>\d+)/task/(?P<task_id>\d+)/new/$', views.new_subtask, name='new_subtask'),
 
 ]

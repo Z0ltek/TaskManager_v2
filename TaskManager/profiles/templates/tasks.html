@@ -23,22 +23,17 @@
     <thead class="thead-inverse">
     <tr>
         <th>Task name</th>
-        <th>Owner</th>
         <th>Subtasks</th>
         <th>Status</th>
-        <th>Last Update</th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    {% for task in project.tasks.all %}
+    {% for task in tasks %}
     <tr>
         <td><a href="{% url 'task_view' project.id task.id %}">{{ task.name }}</a></td>
-        <td>{{ task.created_by.username }}</td>
         <td>{{ task.subtasks.count}}</td>
         <td>{{ task.get_status_display }}</td>
-        <td>{{ task.updated_at }}</td>
-        <td>edit</td>
     </tr>
     {% endfor %}
     </tbody>
