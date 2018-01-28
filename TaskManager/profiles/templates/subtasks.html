@@ -22,7 +22,7 @@
 {% block content %}
 
 <hr>
-<p>{{task.description}}</p>
+<p>{{subtask.message}}</p>
 <hr>
 <form method="post" action="{% url 'task_view' project.id task.id %}" class="form-inline">
     {% csrf_token %}
@@ -43,7 +43,6 @@
     <thead class="thead-inverse">
     <tr>
         <th>Subtask name</th>
-        <th>Owner</th>
         <th>Status</th>
     </tr>
     </thead>
@@ -51,7 +50,6 @@
     {% for subtask in subtasks %}
     <tr>
         <td><a href="{% url 'view_subtask' project.id task.id subtask.id %}">{{ subtask.name }}</a></td>
-        <td>{{ subtask.owner.username }}</td>
         <td>{{ subtask.get_status_display }}</td>
     </tr>
     {% endfor %}
